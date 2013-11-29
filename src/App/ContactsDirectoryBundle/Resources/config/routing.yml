@@ -11,3 +11,7 @@ _app_contacts_directory_save_order:
     defaults: { _controller: app.contactsDirectory.controller:saveOrderAction }
     #requirements:
     #    _method: POST
+
+_app_contacts_directory_add:
+    path: /contacts-directory/add
+    defaults: { _controller: app.contactsDirectory.controller:addAction }

@@ -45,4 +45,8 @@ class Email {
     public function getEmailAddress() {
         return $this->email_address;
     }
+
+    public function setEmailAddress($emailAddress) {
+        $this->email_address = $emailAddress;
+    }
 }

@@ -10,6 +10,7 @@ angular.module('contactsDirectory').factory('ContactData', function ($http) {
 
     var ContactData = function () {
         this.saveOrderUrl = '/';
+        this.addUrl = '/';
     };
 
     /**
@@ -34,10 +35,37 @@ angular.module('contactsDirectory').factory('ContactData', function ($http) {
     };
 
     /**
+     * @param {Array} contact
+     * @param {function} callback
+     */
+    ContactData.prototype.add = function (contact, callback) {
+        var data = {
+            contact: contact
+        };
+        $http({
+            url: this.addUrl,
+            data: data,
+            method: 'post'
+        })
+            .success(function (resp) {
+                callback(null, resp.contact);
+            })
+            .error(function (resp) {
+                callback(resp);
+            });
+    };
+
+    /**
      * @param {string} url
      */
     ContactData.prototype.setSaveOrderUrl = function (url) {
         this.saveOrderUrl = url;
+    };
+    /**
+     * @param {string} url
+     */
+    ContactData.prototype.setAddUrl = function (url) {
+        this.addUrl = url;
     };
 
     return new ContactData();

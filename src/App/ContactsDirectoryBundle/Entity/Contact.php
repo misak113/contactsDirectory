@@ -8,6 +8,7 @@
 
 namespace App\ContactsDirectoryBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Intl\Exception\NotImplementedException;
 
@@ -93,6 +94,51 @@ class Contact {
      */
     public function getDegree() {
         return $this->degree;
+    }
+
+    /**
+     * @param string $firstname
+     * @return $this
+     */
+    public function setFirstname($firstname) {
+        $this->firstname = $firstname;
+        return $this;
+    }
+    /**
+     * @param string $lastname
+     * @return $this
+     */
+    public function setLastname($lastname) {
+        $this->lastname = $lastname;
+        return $this;
+    }
+    /**
+     * @param string $degree
+     * @return $this
+     */
+    public function setDegree($degree) {
+        $this->degree = $degree;
+        return $this;
+    }
+    /**
+     * @param Telephone $telephone
+     * @return $this
+     */
+    public function setTelephone($telephone) {
+        if (!$this->telephones)
+            $this->telephones = new ArrayCollection();
+        $this->telephones[] = $telephone;
+        return $this;
+    }
+    /**
+     * @param Email $email
+     * @return $this
+     */
+    public function setEmail($email) {
+        if (!$this->emails)
+            $this->emails = new ArrayCollection();
+        $this->emails[] = $email;
+        return $this;
     }
 
     /**

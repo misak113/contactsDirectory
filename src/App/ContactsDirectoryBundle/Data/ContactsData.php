@@ -10,6 +10,8 @@ namespace App\ContactsDirectoryBundle\Data;
 
 
 use App\ContactsDirectoryBundle\Entity\Contact;
+use App\ContactsDirectoryBundle\Entity\Email;
+use App\ContactsDirectoryBundle\Entity\Telephone;
 use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
@@ -53,6 +55,11 @@ class ContactsData {
         return $array;
     }
 
+    /**
+     * @param array $contacts
+     * @return array
+     * @throws ContactsException
+     */
     public function saveOrder($contacts) {
         $contactsArray = array();
         $order = 1;
@@ -77,6 +84,53 @@ class ContactsData {
             throw new ContactsException('Při ukládání nastala chyba.', 1, $e);
         }
         return $contactsArray;
+    }
+
+    /**
+     * @param array $contact
+     */
+    public function add($contactArray) {
+        $contact = new Contact();
+        $contact->setFirstname($contactArray['firstname']);
+        $contact->setLastname($contactArray['lastname']);
+        $contact->setDegree($contactArray['degree']);
+        $contact->setOrder($this->getNextOrder());
+
+        $telephone = $this->createTelephone($contactArray['telephone']);
+        $contact->setTelephone($telephone);
+
+        $email = $this->createEmail($contactArray['email']);
+        $contact->setEmail($email);
+
+        $this->entityManager->persist($contact);
+        try {
+            $this->entityManager->flush();
+        } catch (OptimisticLockException $e) {
+            throw new ContactsException('Při ukládání nastala chyba.', 1, $e);
+        }
+
+        return $contact->__toArray();
+    }
+
+    protected function createTelephone($number) {
+        $telephone = new Telephone();
+        $telephone->setNumber($number);
+        $this->entityManager->persist($telephone);
+        return $telephone;
+    }
+
+    protected function createEmail($emailAddress) {
+        $email = new Email();
+        $email->setEmailAddress($emailAddress);
+        $this->entityManager->persist($email);
+        return $email;
+    }
+
+    protected function getNextOrder() {
+        $res = $this->entityManager->getConnection()
+            ->executeQuery('SELECT MAX(order_position)+1 AS order_position FROM contact LIMIT 1')
+            ->fetch();
+        return $res['order_position'];
     }
 }
 

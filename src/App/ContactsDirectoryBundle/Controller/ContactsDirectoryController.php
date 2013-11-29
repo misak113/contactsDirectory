@@ -69,4 +69,23 @@ class ContactsDirectoryController extends Controller {
         return $response;
     }
 
+    /**
+     *
+     */
+    public function addAction() {
+        $post = json_decode($this->getRequest()->getContent(), true);
+        if (!isset($post['contact']))
+            throw new NotFoundHttpException();
+
+        $contact = $post['contact'];
+        $contact = $this->contactData->add($contact);
+
+        // response
+        $response = new JsonResponse();
+        $response->setData(array(
+            'contact' => $contact
+        ));
+        return $response;
+    }
+
 } 

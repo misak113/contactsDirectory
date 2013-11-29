@@ -4,7 +4,7 @@
 {% block content %}
     <table class="contacts-list table table-striped"
         ng-controller="ListCtrl"
-        ng-init="contacts = {{ contacts |json_encode }}; setSaveOrderUrl('{{ path('_app_contacts_directory_save_order') }}')">
+        ng-init="contacts = {{ contacts |json_encode }}; setSaveOrderUrl('{{ path('_app_contacts_directory_save_order') }}'); setAddUrl('{{ path('_app_contacts_directory_add') }}');">
         <thead>
             <tr>
                 <th>Jméno</th>
@@ -17,6 +17,31 @@
                 <td ng-bind="contact.name"></td>
                 <td ng-bind="contact.email"></td>
                 <td ng-bind="contact.telephones"></td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td>
+                    <input type="text" placeholder="Jméno"
+                           ng-model="firstname"/>
+                    <input type="text" placeholder="Příjemní"
+                           ng-model="lastname"/>
+                    <input type="text" placeholder="titul"
+                           ng-model="degree"/>
+                </td>
+                <td>
+                    <input type="text" placeholder="e-mail"
+                           ng-model="email"/>
+                </td>
+                <td>
+                    <input type="text" placeholder="telefonní číslo"
+                           ng-model="telephone" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <button ng-click="add()">Přidat</button>
+                </td>
             </tr>
         </tbody>
         <tfoot>

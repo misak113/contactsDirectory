@@ -17,5 +17,29 @@ function ListCtrl($scope, ContactData) {
     $scope.setSaveOrderUrl = function (url) {
         ContactData.setSaveOrderUrl(url);
     };
+    $scope.setAddUrl = function (url) {
+        ContactData.setAddUrl(url);
+    };
+
+    $scope.add = function () {
+        $scope.loading = true;
+        ContactData.add({
+            firstname: $scope.firstname,
+            lastname: $scope.lastname,
+            degree: $scope.degree,
+            telephone: $scope.telephone,
+            email: $scope.email
+        }, function (e, contact) {
+            if (e === null) {
+                $scope.firstname = '';
+                $scope.lastname = '';
+                $scope.degree = '';
+                $scope.telephone = '';
+                $scope.email = '';
+                $scope.contacts.push(contact);
+            }
+            $scope.loading = false;
+        });
+    };
 
 }
