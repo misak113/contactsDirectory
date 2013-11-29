@@ -25,7 +25,7 @@ class Contact {
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $contact_id;
+    public $id;
 
     /**
      * @var int
@@ -49,7 +49,23 @@ class Contact {
      * @var string
      * @ORM\Column(type="string", length=50)
      */
-    public $degree;
+    protected $degree;
+
+    /**
+     * @var Telephone[]
+     * @ORM\OneToMany(targetEntity="Telephone", mappedBy="contact")
+     */
+    protected $telephones;
+
+    /**
+     * @var Email[]
+     * @ORM\OneToMany(targetEntity="Email", mappedBy="contact")
+     */
+    protected $emails;
+
+    public function getId() {
+        return $this->id;
+    }
 
     /**
      * @return string
@@ -83,21 +99,47 @@ class Contact {
      * @return string[]
      */
     public function getTelephones() {
-        throw new NotImplementedException('getTelephones');
+        $array = array();
+        foreach ($this->telephones as $telephone) {
+            $array[] = $telephone->getNumber();
+        }
+        return $array;
     }
 
     /**
      * @return string[]
      */
     public function getEmails() {
-        throw new NotImplementedException('getEmails');
+        $array = array();
+        foreach ($this->emails as $email) {
+            $array[] = $email->getEmailAddress();
+        }
+        return $array;
     }
 
     /**
      * @return string
      */
     public function getEmail() {
-        throw new NotImplementedException('getEmail');
+        if (count($this->emails) == 0)
+            return '';
+        return $this->emails[0]->getEmailAddress();
     }
 
+
+    public function __toArray() {
+        return array(
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'firstname' => $this->getFirstname(),
+            'lastname' => $this->getLastname(),
+            'email' => $this->getEmail(),
+            'emails' => $this->getEmails(),
+            'telephones' => $this->getTelephones(),
+        );
+    }
+
+    public function setOrder($order) {
+        $this->order_position = $order;
+    }
 } 

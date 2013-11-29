@@ -1,2 +1,2 @@
 
-angular.module('contactsDirectory', []);
+angular.module('contactsDirectory', ["ui.sortable"]);

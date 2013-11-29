@@ -5,9 +5,15 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <script type="text/javascript"
+                src="{{ asset('//code.jquery.com/jquery-1.9.1.js') }}"></script>
+        <script type="text/javascript"
+                src="{{ asset('//code.jquery.com/ui/1.10.3/jquery-ui.js') }}"></script>
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
         <script type="text/javascript"
                 src="{{ asset('//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js') }}"></script>
         {% block javascripts %}{% endblock %}

@@ -9,7 +9,10 @@
 namespace App\ContactsDirectoryBundle\Data;
 
 
+use App\ContactsDirectoryBundle\Entity\Contact;
+use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
 use Symfony\Component\Intl\Exception\NotImplementedException;
 
 class ContactsData {
@@ -33,17 +36,47 @@ class ContactsData {
      * @return array
      */
     public function getContacts() {
-        throw new NotImplementedException('getContacts');
+        /** @var Contact[] $contacts */
         $contacts = $this->table()
             ->createQueryBuilder('contact')
-            ->select('contact.*')
-            ->orderBy('order_position')
+            ->orderBy('contact.order_position')
             ->getQuery()
             ->execute();
-        if (!$contacts)
+        if ($contacts === false)
             throw new ContactsException('Při získání kontaktů nastala chyba.');
 
-        return $contacts;
+        $array = array();
+        foreach ($contacts as $contact) {
+            $array[] = $contact->__toArray();
+        }
+
+        return $array;
+    }
+
+    public function saveOrder($contacts) {
+        $contactsArray = array();
+        $order = 1;
+        foreach ($contacts as $contactArray) {
+            if (!isset($contactArray['id']))
+                continue;
+
+            /** @var Contact $contact */
+            $contact = $this->table()
+                ->find($contactArray['id']);
+            if (!$contact)
+                continue;
+
+            $contact->setOrder($order);
+            $this->entityManager->persist($contact);
+            $contactsArray[] = $contact->__toArray();
+            $order++;
+        }
+        try {
+            $this->entityManager->flush();
+        } catch (OptimisticLockException $e) {
+            throw new ContactsException('Při ukládání nastala chyba.', 1, $e);
+        }
+        return $contactsArray;
     }
 }
 

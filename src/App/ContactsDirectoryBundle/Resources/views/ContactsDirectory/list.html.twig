@@ -2,17 +2,41 @@
 {% extends "ContactsDirectoryBundle::layout.html.twig" %}
 
 {% block content %}
-    <ul class="contacts-list"
+    <table class="contacts-list table table-striped"
         ng-controller="ListCtrl"
-        ng-init="contacts = {{ contacts |json_encode }}">
-        <li ng-repeat="contact in contacts">
-
-        </li>
-    </ul>
+        ng-init="contacts = {{ contacts |json_encode }}; setSaveOrderUrl('{{ path('_app_contacts_directory_save_order') }}')">
+        <thead>
+            <tr>
+                <th>Jméno</th>
+                <th>Email</th>
+                <th>Telefon</th>
+            </tr>
+        </thead>
+        <tbody ui-sortable="sortableOptions" ng-model="contacts">
+            <tr ng-repeat="contact in contacts track by $index">
+                <td ng-bind="contact.name"></td>
+                <td ng-bind="contact.email"></td>
+                <td ng-bind="contact.telephones"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" ng-show="loading">
+                    ukládám...
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 {% endblock %}
 
 {% block javascripts %}
+    {% javascripts '@ContactsDirectoryBundle/Resources/public/js/sortable.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
     {% javascripts '@ContactsDirectoryBundle/Resources/public/js/contactsDirectory.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts '@ContactsDirectoryBundle/Resources/public/js/ContactData.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% javascripts '@ContactsDirectoryBundle/Resources/public/js/ListCtrl.js' %}

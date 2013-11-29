@@ -2,7 +2,10 @@
 services:
     app.contactsDirectory.controller:
         class: App\ContactsDirectoryBundle\Controller\ContactsDirectoryController
-        arguments: ["@contactsData"]
+        calls:
+            - [inject, ["@contactsData", "@session"]]
+            - [setContainer, ["@service_container"]]
+
 
     contactsData:
         class: App\ContactsDirectoryBundle\Data\ContactsData
