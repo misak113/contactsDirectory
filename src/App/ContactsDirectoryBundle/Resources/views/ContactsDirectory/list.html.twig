@@ -2,5 +2,20 @@
 {% extends "ContactsDirectoryBundle::layout.html.twig" %}
 
 {% block content %}
-    some bitch
+    <ul class="contacts-list"
+        ng-controller="ListCtrl"
+        ng-init="contacts = {}">
+        <li ng-repeat="contact in contacts">
+
+        </li>
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts '@ContactsDirectoryBundle/Resources/public/js/contactsDirectory.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts '@ContactsDirectoryBundle/Resources/public/js/ListCtrl.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

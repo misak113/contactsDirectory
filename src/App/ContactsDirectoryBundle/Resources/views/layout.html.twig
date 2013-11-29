@@ -1,8 +1,11 @@
 {% extends "base.html.twig" %}
 
-{% block head %}
+{% block stylesheets %}
     <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/contactsDirectory/css/base.css') }}" />
+    <link rel="stylesheet" href="{{ asset('//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css') }}" />
+    {% stylesheets "@ContactsDirectoryBundle/Resources/public/css/*.css" %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block title 'Adresář kontaktů' %}
@@ -15,16 +18,18 @@
     {% endfor %}
 
     {% block content_header %}
-        <ul id="menu">
-            {% block content_header_more %}
-                <li><a href="{{ path('_app_contacts_directory_list') }}">Seznam</a></li>
-            {% endblock %}
-        </ul>
-
-        <div style="clear: both"></div>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <ul id="menu" class="nav navbar-nav">
+                    {% block content_header_more %}
+                        <li><a href="{{ path('_app_contacts_directory_list') }}">Seznam</a></li>
+                    {% endblock %}
+                </ul>
+            </div>
+        </nav>
     {% endblock %}
 
-    <div class="block">
+    <div class="block" ng-app="contactsDirectory">
         {% block content %}{% endblock %}
     </div>
 
