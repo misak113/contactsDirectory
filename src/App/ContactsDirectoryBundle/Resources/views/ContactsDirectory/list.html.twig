@@ -4,7 +4,7 @@
 {% block content %}
     <ul class="contacts-list"
         ng-controller="ListCtrl"
-        ng-init="contacts = {}">
+        ng-init="contacts = {{ contacts |json_encode }}">
         <li ng-repeat="contact in contacts">
 
         </li>

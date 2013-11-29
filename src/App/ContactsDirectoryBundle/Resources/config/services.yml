@@ -6,4 +6,4 @@ services:
 
     contactsData:
         class: App\ContactsDirectoryBundle\Data\ContactsData
-        arguments: []
+        arguments: ["@doctrine.orm.entity_manager"]
