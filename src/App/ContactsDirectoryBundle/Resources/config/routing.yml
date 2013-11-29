@@ -15,3 +15,7 @@ _app_contacts_directory_save_order:
 _app_contacts_directory_add:
     path: /contacts-directory/add
     defaults: { _controller: app.contactsDirectory.controller:addAction }
+
+_app_contacts_directory_delete:
+    path: /contacts-directory/delete
+    defaults: { _controller: app.contactsDirectory.controller:deleteAction }

@@ -46,6 +46,9 @@ class Email {
         return $this->email_address;
     }
 
+    /**
+     * @param string $emailAddress
+     */
     public function setEmailAddress($emailAddress) {
         $this->email_address = $emailAddress;
     }

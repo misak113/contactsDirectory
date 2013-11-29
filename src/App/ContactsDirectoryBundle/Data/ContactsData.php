@@ -87,7 +87,7 @@ class ContactsData {
     }
 
     /**
-     * @param array $contact
+     * @param array $contactArray
      */
     public function add($contactArray) {
         $contact = new Contact();
@@ -112,6 +112,28 @@ class ContactsData {
         return $contact->__toArray();
     }
 
+    /**
+     * @param array $contactArray
+     * @return array
+     * @throws ContactsException
+     */
+    public function delete($contactArray) {
+        try {
+            /** @var Contact $contact */
+            $contact = $this->table()->find($contactArray['id']);
+            $contactArray = $contact->__toArray();
+            $this->entityManager->remove($contact);
+            $this->entityManager->flush();
+        } catch (OptimisticLockException $e) {
+            throw new ContactsException('Při mazání nastala chyba.', 1, $e);
+        }
+        return $contactArray;
+    }
+
+    /**
+     * @param string $number
+     * @return Telephone
+     */
     protected function createTelephone($number) {
         $telephone = new Telephone();
         $telephone->setNumber($number);
@@ -119,6 +141,10 @@ class ContactsData {
         return $telephone;
     }
 
+    /**
+     * @param string $emailAddress
+     * @return Email
+     */
     protected function createEmail($emailAddress) {
         $email = new Email();
         $email->setEmailAddress($emailAddress);
@@ -126,6 +152,9 @@ class ContactsData {
         return $email;
     }
 
+    /**
+     * @return int
+     */
     protected function getNextOrder() {
         $res = $this->entityManager->getConnection()
             ->executeQuery('SELECT MAX(order_position)+1 AS order_position FROM contact LIMIT 1')

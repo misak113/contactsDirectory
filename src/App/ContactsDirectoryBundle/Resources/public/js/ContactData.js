@@ -11,6 +11,7 @@ angular.module('contactsDirectory').factory('ContactData', function ($http) {
     var ContactData = function () {
         this.saveOrderUrl = '/';
         this.addUrl = '/';
+        this.deleteUrl = '/';
     };
 
     /**
@@ -56,6 +57,27 @@ angular.module('contactsDirectory').factory('ContactData', function ($http) {
     };
 
     /**
+     * @param {Array} contact
+     * @param {function} callback
+     */
+    ContactData.prototype.delete = function (contact, callback) {
+        var data = {
+            contact: contact
+        };
+        $http({
+            url: this.deleteUrl,
+            data: data,
+            method: 'post'
+        })
+            .success(function (resp) {
+                callback(null, resp.contact);
+            })
+            .error(function (resp) {
+                callback(resp);
+            });
+    };
+
+    /**
      * @param {string} url
      */
     ContactData.prototype.setSaveOrderUrl = function (url) {
@@ -66,6 +88,12 @@ angular.module('contactsDirectory').factory('ContactData', function ($http) {
      */
     ContactData.prototype.setAddUrl = function (url) {
         this.addUrl = url;
+    };
+    /**
+     * @param {string} url
+     */
+    ContactData.prototype.setDeleteUrl = function (url) {
+        this.deleteUrl = url;
     };
 
     return new ContactData();

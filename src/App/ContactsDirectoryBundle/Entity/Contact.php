@@ -26,7 +26,7 @@ class Contact {
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $id;
+    protected $id;
 
     /**
      * @var int
@@ -64,6 +64,9 @@ class Contact {
      */
     protected $emails;
 
+    /**
+     * @return int
+     */
     public function getId() {
         return $this->id;
     }

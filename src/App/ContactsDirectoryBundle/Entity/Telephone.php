@@ -45,6 +45,9 @@ class Telephone {
         return $this->number;
     }
 
+    /**
+     * @param string $number
+     */
     public function setNumber($number) {
         $this->number = $number;
     }

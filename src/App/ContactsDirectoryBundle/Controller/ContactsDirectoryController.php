@@ -88,4 +88,23 @@ class ContactsDirectoryController extends Controller {
         return $response;
     }
 
+    /**
+     *
+     */
+    public function deleteAction() {
+        $post = json_decode($this->getRequest()->getContent(), true);
+        if (!isset($post['contact']))
+            throw new NotFoundHttpException();
+
+        $contact = $post['contact'];
+        $contact = $this->contactData->delete($contact);
+
+        // response
+        $response = new JsonResponse();
+        $response->setData(array(
+            'contact' => $contact
+        ));
+        return $response;
+    }
+
 } 

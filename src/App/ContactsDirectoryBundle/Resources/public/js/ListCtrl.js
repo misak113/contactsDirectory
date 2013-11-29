@@ -20,6 +20,9 @@ function ListCtrl($scope, ContactData) {
     $scope.setAddUrl = function (url) {
         ContactData.setAddUrl(url);
     };
+    $scope.setDeleteUrl = function (url) {
+        ContactData.setDeleteUrl(url);
+    };
 
     $scope.add = function () {
         $scope.loading = true;
@@ -41,5 +44,22 @@ function ListCtrl($scope, ContactData) {
             $scope.loading = false;
         });
     };
+
+    $scope.delete = function (contact) {
+        $scope.loading = true;
+        ContactData.delete({
+            id: contact.id
+        }, function (e, contact) {
+            if (e === null) {
+                var index = 0;
+                angular.forEach($scope.contacts, function (c, i) {console.log(c, contact);
+                    if (c.id == contact.id)
+                        index = i;
+                });
+                $scope.contacts.splice(index, 1);
+            }
+            $scope.loading = false;
+        });
+    }
 
 }
