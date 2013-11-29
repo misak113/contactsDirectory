@@ -1,0 +1,9 @@
+
+services:
+    app.contactsDirectory.controller:
+        class: App\ContactsDirectoryBundle\Controller\ContactsDirectoryController
+        arguments: ["@contactsData"]
+
+    contactsData:
+        class: App\ContactsDirectoryBundle\Data\ContactsData
+        arguments: []

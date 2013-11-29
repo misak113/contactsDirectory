@@ -1,0 +1,7 @@
+
+
+_app_contacts_directory_list:
+    path: /contacts-directory
+    defaults: { _controller: app.contactsDirectory.controller:listAction }
+    #resource: "@ContactsDirectoryBundle/Controller/ContactsDirectoryController.php"
+    #type:     annotation
