@@ -1,18 +1,26 @@
 
 function ListCtrl($scope, ContactData) {
+    // kontakty
     $scope.contacts = [];
+    // pokud se načítá
     $scope.loading = false;
 
+    // Data to create contact
+    /** @type {string} */
     $scope.firstname = '';
+    /** @type {string} */
     $scope.lastname = '';
+    /** @type {string} */
     $scope.degree = '';
+    /** @type {string} */
     $scope.telephone = '';
+    /** @type {string} */
     $scope.email = '';
 
-    $scope.sortingLog = [];
     $scope.sortableOptions = {
         // called after a node is dropped
         stop: function(e, ui) {
+            // uloží pořadí
             $scope.error = '';
             $scope.loading = true;
             ContactData.saveOrder($scope.contacts, function (e, contacts) {
@@ -21,16 +29,28 @@ function ListCtrl($scope, ContactData) {
         }
     };
 
+    /**
+     * @param url
+     */
     $scope.setSaveOrderUrl = function (url) {
         ContactData.setSaveOrderUrl(url);
     };
+    /**
+     * @param url
+     */
     $scope.setAddUrl = function (url) {
         ContactData.setAddUrl(url);
     };
+    /**
+     * @param url
+     */
     $scope.setDeleteUrl = function (url) {
         ContactData.setDeleteUrl(url);
     };
 
+    /**
+     * přidá kontakt
+     */
     $scope.add = function () {
         $scope.error = '';
         $scope.loading = true;
@@ -55,6 +75,10 @@ function ListCtrl($scope, ContactData) {
         });
     };
 
+    /**
+     * Smaže kontakt
+     * @param contact
+     */
     $scope.delete = function (contact) {
         $scope.error = '';
         $scope.loading = true;

@@ -8,6 +8,10 @@
 
 angular.module('contactsDirectory').factory('ContactData', function ($http) {
 
+    /**
+     *
+     * @constructor
+     */
     var ContactData = function () {
         this.saveOrderUrl = '/';
         this.addUrl = '/';
@@ -96,5 +100,8 @@ angular.module('contactsDirectory').factory('ContactData', function ($http) {
         this.deleteUrl = url;
     };
 
+    /**
+     * factory of service
+     */
     return new ContactData();
 });

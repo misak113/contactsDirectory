@@ -175,7 +175,10 @@ class Contact {
         return $this->emails[0]->getEmailAddress();
     }
 
-
+    /**
+     * return array representation of contact (not magic yet)
+     * @return array
+     */
     public function __toArray() {
         return array(
             'id' => $this->getId(),
@@ -188,6 +191,10 @@ class Contact {
         );
     }
 
+    /**
+     * Nastaví pořadí kontaktu v seznamu
+     * @param int $order
+     */
     public function setOrder($order) {
         $this->order_position = $order;
     }

@@ -38,12 +38,14 @@ class ContactsDirectoryController extends Controller {
     }
 
     /**
+     * Vypíše seznam kontaktů angularem
      * @Route("/contacts-directory", name="_app_contacts_directory")
      * @Template()
      */
     public function listAction() {
 
         try {
+            // získá data se seznamem
             $contacts = $this->contactData->getContacts();
         } catch (ContactsException $e) {
             $contacts = array();
@@ -56,13 +58,14 @@ class ContactsDirectoryController extends Controller {
     }
 
     /**
-     *
+     * Uloží pořadí kontaktů
      */
     public function saveOrderAction() {
         $post = json_decode($this->getRequest()->getContent(), true);
         if (!isset($post['contacts']))
             throw new NotFoundHttpException();
 
+        // uloží pořadí do dat
         $contacts = $post['contacts'];
         $contacts = $this->contactData->saveOrder($contacts);
 
@@ -75,21 +78,24 @@ class ContactsDirectoryController extends Controller {
     }
 
     /**
-     *
+     * Přidá kontakt
      */
     public function addAction() {
         $post = json_decode($this->getRequest()->getContent(), true);
         if (!isset($post['contact']))
             throw new NotFoundHttpException();
 
+        // zvaliduje a pokud není ok, vrátí hlášku chyby
         $contact = $post['contact'];
         try {
             $this->contactValidator->validate($contact);
         } catch (ValidatorException $e) {
+            // hláška chyby s statusCode 400
             $response = new JsonResponse(array('error' => $e->getMessage()));
             $response->setStatusCode(400);
             return $response;
         }
+        // přidá pokud jsou validní data
         $contact = $this->contactData->add($contact);
 
         // response
@@ -101,13 +107,14 @@ class ContactsDirectoryController extends Controller {
     }
 
     /**
-     *
+     * Smaže kontakt
      */
     public function deleteAction() {
         $post = json_decode($this->getRequest()->getContent(), true);
         if (!isset($post['contact']))
             throw new NotFoundHttpException();
 
+        // smaže kontakt
         $contact = $post['contact'];
         $contact = $this->contactData->delete($contact);
 

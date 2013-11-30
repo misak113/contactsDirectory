@@ -14,6 +14,13 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 
 class ContactValidator {
 
+    /**
+     * Zvaliduje zadané pole a vrátí popřípadě vyjímku s chybou
+     * Pokud validní, nic nevyhazuje
+     *
+     * @param array $contactArray
+     * @throws \Symfony\Component\Validator\Exception\ValidatorException
+     */
     public function validate($contactArray) {
         if (!isset($contactArray['firstname']) || !is_string($contactArray['firstname']) || !$contactArray['firstname'])
             throw new ValidatorException('Je třeba zadat Jméno');
