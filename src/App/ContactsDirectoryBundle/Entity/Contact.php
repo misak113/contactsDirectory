@@ -130,6 +130,7 @@ class Contact {
     public function setTelephone($telephone) {
         if (!$this->telephones)
             $this->telephones = new ArrayCollection();
+        $telephone->setContact($this);
         $this->telephones[] = $telephone;
         return $this;
     }
@@ -140,6 +141,7 @@ class Contact {
     public function setEmail($email) {
         if (!$this->emails)
             $this->emails = new ArrayCollection();
+        $email->setContact($this);
         $this->emails[] = $email;
         return $this;
     }

@@ -50,6 +50,16 @@ class Telephone {
      */
     public function setNumber($number) {
         $this->number = $number;
+        return $this;
+    }
+
+    /**
+     * @param Contact $contact
+     * @return $this
+     */
+    public function setContact(Contact $contact) {
+        $this->contact = $contact;
+        return $this;
     }
 
 }

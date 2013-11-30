@@ -48,8 +48,19 @@ class Email {
 
     /**
      * @param string $emailAddress
+     * @return $this
      */
     public function setEmailAddress($emailAddress) {
         $this->email_address = $emailAddress;
+        return $this;
+    }
+
+    /**
+     * @param Contact $contact
+     * @return $this
+     */
+    public function setContact(Contact $contact) {
+        $this->contact = $contact;
+        return $this;
     }
 }
