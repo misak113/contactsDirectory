@@ -3,6 +3,12 @@ function ListCtrl($scope, ContactData) {
     $scope.contacts = [];
     $scope.loading = false;
 
+    $scope.firstname = '';
+    $scope.lastname = '';
+    $scope.degree = '';
+    $scope.telephone = '';
+    $scope.email = '';
+
     $scope.sortingLog = [];
     $scope.sortableOptions = {
         // called after a node is dropped

@@ -25,7 +25,9 @@ class ContactValidator {
             throw new ValidatorException('Je třeba zadat Telefon');
         if (!isset($contactArray['email']) || !is_string($contactArray['email']) || !$contactArray['email'])
             throw new ValidatorException('Je třeba zadat e-mail');
-        if (!preg_match('~[a-zA-Z\-.]+@[a-zA-Z\-.]+\.[a-zA-Z\-.]{2,}~', $contactArray['email']))
+        if (!preg_match('~^[a-zA-Z0-9\-.]+@[a-zA-Z0-9\-.]+\.[a-zA-Z0-9\-.]{2,}$~', $contactArray['email']))
             throw new ValidatorException('E-mail musí být ve tvaru xxx@xxx.xxx');
+        if (!preg_match('~^[0-9+ ]+$~', $contactArray['telephone']))
+            throw new ValidatorException('Telefonní číslo může obsahovat pouze znaky číslic, mezery a znaménko +');
     }
 }
