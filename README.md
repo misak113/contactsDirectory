@@ -12,4 +12,4 @@ php app/console doctrine:schema:update --force
 php app/console server:run
 ```
 
-- and then go to broser & type http://localhost:8000/contact-directory
+- and then go to broser & type http://localhost:8000/contacts-directory
