@@ -3,10 +3,13 @@ services:
     app.contactsDirectory.controller:
         class: App\ContactsDirectoryBundle\Controller\ContactsDirectoryController
         calls:
-            - [inject, ["@contactsData", "@session"]]
+            - [inject, ["@contactsData", "@session", "@contactValidator"]]
             - [setContainer, ["@service_container"]]
 
 
     contactsData:
         class: App\ContactsDirectoryBundle\Data\ContactsData
         arguments: ["@doctrine.orm.entity_manager"]
+
+    contactValidator:
+        class: App\ContactsDirectoryBundle\Data\ContactValidator

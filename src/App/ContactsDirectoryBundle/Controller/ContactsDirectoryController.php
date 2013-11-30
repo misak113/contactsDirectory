@@ -10,6 +10,7 @@ namespace App\ContactsDirectoryBundle\Controller;
 
 use App\ContactsDirectoryBundle\Data\ContactsData;
 use App\ContactsDirectoryBundle\Data\ContactsException;
+use App\ContactsDirectoryBundle\Data\ContactValidator;
 use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -20,16 +21,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Validator\Exception\ValidatorException;
 
 class ContactsDirectoryController extends Controller {
     /** @var ContactsData @inject */
     protected $contactData;
     /** @var \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface|\Symfony\Component\HttpFoundation\Session\SessionBagInterface @inject */
     protected $flashes;
+    /** @var ContactValidator @inject */
+    protected $contactValidator;
 
-    public function inject(ContactsData $contactData, Session $session) {
+    public function inject(ContactsData $contactData, Session $session, ContactValidator $contactValidator) {
         $this->contactData = $contactData;
         $this->flashes = $session->getFlashBag();
+        $this->contactValidator = $contactValidator;
     }
 
     /**
@@ -78,6 +83,13 @@ class ContactsDirectoryController extends Controller {
             throw new NotFoundHttpException();
 
         $contact = $post['contact'];
+        try {
+            $this->contactValidator->validate($contact);
+        } catch (ValidatorException $e) {
+            $response = new JsonResponse(array('error' => $e->getMessage()));
+            $response->setStatusCode(400);
+            return $response;
+        }
         $contact = $this->contactData->add($contact);
 
         // response

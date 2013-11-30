@@ -45,16 +45,17 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="3">
+                <td colspan="4">
                     <button ng-click="add()">Přidat</button>
                 </td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="3" ng-show="loading">
+                <td colspan="4" ng-show="loading">
                     ukládám...
                 </td>
+                <td colspan="4" ng-bind="error"></td>
             </tr>
         </tfoot>
     </table>

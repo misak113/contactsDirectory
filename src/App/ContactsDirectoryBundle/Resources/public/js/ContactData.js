@@ -31,7 +31,7 @@ angular.module('contactsDirectory').factory('ContactData', function ($http) {
                 callback(null, resp.contacts);
             })
             .error(function (resp) {
-                callback(resp);
+                callback(resp.error);
             });
     };
 
@@ -52,7 +52,7 @@ angular.module('contactsDirectory').factory('ContactData', function ($http) {
                 callback(null, resp.contact);
             })
             .error(function (resp) {
-                callback(resp);
+                callback(resp.error);
             });
     };
 
@@ -73,7 +73,7 @@ angular.module('contactsDirectory').factory('ContactData', function ($http) {
                 callback(null, resp.contact);
             })
             .error(function (resp) {
-                callback(resp);
+                callback(resp.error);
             });
     };
 

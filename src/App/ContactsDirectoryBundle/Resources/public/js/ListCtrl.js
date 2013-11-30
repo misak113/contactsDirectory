@@ -7,6 +7,7 @@ function ListCtrl($scope, ContactData) {
     $scope.sortableOptions = {
         // called after a node is dropped
         stop: function(e, ui) {
+            $scope.error = '';
             $scope.loading = true;
             ContactData.saveOrder($scope.contacts, function (e, contacts) {
                 $scope.loading = false;
@@ -25,6 +26,7 @@ function ListCtrl($scope, ContactData) {
     };
 
     $scope.add = function () {
+        $scope.error = '';
         $scope.loading = true;
         ContactData.add({
             firstname: $scope.firstname,
@@ -40,19 +42,22 @@ function ListCtrl($scope, ContactData) {
                 $scope.telephone = '';
                 $scope.email = '';
                 $scope.contacts.push(contact);
+            } else {
+                $scope.error = e;
             }
             $scope.loading = false;
         });
     };
 
     $scope.delete = function (contact) {
+        $scope.error = '';
         $scope.loading = true;
         ContactData.delete({
             id: contact.id
         }, function (e, contact) {
             if (e === null) {
                 var index = 0;
-                angular.forEach($scope.contacts, function (c, i) {console.log(c, contact);
+                angular.forEach($scope.contacts, function (c, i) {
                     if (c.id == contact.id)
                         index = i;
                 });
